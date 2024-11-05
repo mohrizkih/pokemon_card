@@ -17,6 +17,7 @@ dependencies:
   flutter_bloc: ^8.1.4
   alice: ^0.4.1
   provider: ^6.1.2
+  equatable: ^2.0.5
 
 dev_dependencies:
   flutter_test:

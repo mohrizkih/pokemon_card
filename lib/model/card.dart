@@ -1,13 +1,14 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
+import 'package:equatable/equatable.dart';
 import 'package:pokemon_card/model/elemental_type.dart';
 import 'package:pokemon_card/model/legalities.dart';
 import 'package:pokemon_card/model/set.dart';
 import 'package:pokemon_card/model/subtype.dart';
 import 'package:pokemon_card/model/supertype.dart';
 
-class PokemonCard {
-  PokemonCard({
+class PokemonCard extends Equatable {
+  const PokemonCard({
     required this.id,
     required this.name,
     required this.supertype,
@@ -122,6 +123,32 @@ class PokemonCard {
   final List<String> retreatCost;
   final CardImages images;
   final dynamic tcgPlayer;
+
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        supertype,
+        subtypes,
+        types,
+        hp,
+        evolvesFrom,
+        legalities,
+        rarity,
+        number,
+        artist,
+        convertedRetreatCost,
+        set,
+        flavorText,
+        nationalPokedexNumbers,
+        abilities,
+        attacks,
+        weaknesses,
+        resistances,
+        retreatCost,
+        images,
+        tcgPlayer,
+      ];
 }
 
 class Ability {

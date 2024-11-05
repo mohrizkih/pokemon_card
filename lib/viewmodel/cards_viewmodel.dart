@@ -27,7 +27,7 @@ class CardsViewmodel extends ChangeNotifier {
   bool get hasCards => _state is CardsLoaded;
 
   // Get the user data if available
-  Iterable<PokemonCard>? get user => hasCards ? (_state as CardsLoaded).cards : null;
+  Iterable<PokemonCard>? get cards => hasCards ? (_state as CardsLoaded).cards : null;
 
   // Get error message if an error occurred
   String? get errorMessage => _state is CardsError ? (_state as CardsError).message : null;

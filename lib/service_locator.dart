@@ -3,12 +3,15 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pokemon_card/core/constants/url.dart';
 import 'package:pokemon_card/core/repositories/rest_client.dart';
+import 'package:pokemon_card/core/routes/app_router.dart';
 import 'package:pokemon_card/viewmodel/bloc/cards/cards_bloc.dart';
 import 'package:pokemon_card/viewmodel/cards_viewmodel.dart';
 
 final sl = GetIt.I;
 
 Future<void> initSL() async {
+  sl.registerSingleton<AppRouter>(AppRouter());
+
   final dio = Dio(BaseOptions(baseUrl: baseUrl, contentType: 'application/json'));
 
   Alice alice = Alice(showNotification: true, showInspectorOnShake: true);
