@@ -22,7 +22,7 @@ class _RestClient implements RestClient {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<PokemonCard> doGetCards({
+  Future<PokemonCardResponse> doGetCards({
     String? query,
     required int page,
     required int pageSize,
@@ -36,8 +36,8 @@ class _RestClient implements RestClient {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<PokemonCard>(Options(
-      method: 'POST',
+    final _options = _setStreamType<PokemonCardResponse>(Options(
+      method: 'GET',
       headers: _headers,
       extra: _extra,
     )
@@ -53,9 +53,9 @@ class _RestClient implements RestClient {
           baseUrl,
         )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late PokemonCard _value;
+    late PokemonCardResponse _value;
     try {
-      _value = PokemonCard.fromJson(_result.data!);
+      _value = PokemonCardResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

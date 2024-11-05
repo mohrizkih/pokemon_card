@@ -1,18 +1,33 @@
+import 'package:alice/alice.dart';
 import 'package:flutter/material.dart';
+import 'package:pokemon_card/service_locator.dart';
+import 'package:pokemon_card/viewmodel/bloc/cards/cards_bloc.dart';
+import 'package:pokemon_card/viewmodel/cards_viewmodel.dart';
+import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initSL();
   runApp(const MainApp());
 }
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
+  // final _appRouter = sl<AppRouter>();
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
+    // sl<Alice>().setNavigatorKey(_appRouter.navigatorKey);
+    return MultiProvider(
+      providers: [
+        Provider(create: (_) => sl<CardsBloc>()),
+        ChangeNotifierProvider(create: (context) => sl<CardsViewmodel>()),
+      ],
+      child: const MaterialApp(
+        home: Scaffold(
+          body: Center(
+            child: Text('Hello World!'),
+          ),
         ),
       ),
     );

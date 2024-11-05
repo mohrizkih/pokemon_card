@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:pokemon_card/model/card.dart';
+import 'package:pokemon_card/model/pokemon_card_response.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'rest_client.g.dart';
@@ -10,6 +10,10 @@ abstract class RestClient {
     return _RestClient(dio, baseUrl: baseUrl);
   }
 
-  @POST('/v2/cards')
-  Future<PokemonCard> doGetCards({@Query('q') String? query, @Query('page') required int page, @Query('pageSize') required int pageSize});
+  @GET('/v2/cards')
+  Future<PokemonCardResponse> doGetCards({
+    @Query('q') String? query,
+    @Query('page') required int page,
+    @Query('pageSize') required int pageSize,
+  });
 }

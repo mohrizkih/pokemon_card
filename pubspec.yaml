@@ -16,6 +16,7 @@ dependencies:
   auto_route: ^7.8.4
   flutter_bloc: ^8.1.4
   alice: ^0.4.1
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:
