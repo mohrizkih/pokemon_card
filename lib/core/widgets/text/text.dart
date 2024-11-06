@@ -8,7 +8,7 @@ class T {
       textAlign: textAlign ?? TextAlign.left,
       maxLines: maxline,
       overflow: overflow,
-      style: GoogleFonts.poppins(fontSize: size ?? 14.0, fontWeight: FontWeight.w800, color: color, letterSpacing: letterSpacing ?? 0.2, height: height),
+      style: GoogleFonts.poppins(fontSize: size ?? 14.0, fontWeight: FontWeight.w700, color: color, letterSpacing: letterSpacing ?? 0.2, height: height),
     );
   }
 
@@ -18,7 +18,7 @@ class T {
       textAlign: textAlign ?? TextAlign.left,
       maxLines: maxline,
       overflow: overflow,
-      style: GoogleFonts.poppins(fontSize: size ?? 14.0, fontWeight: FontWeight.w500, color: color, letterSpacing: letterSpacing ?? 0.2),
+      style: GoogleFonts.poppins(fontSize: size ?? 14.0, fontWeight: FontWeight.w400, color: color, letterSpacing: letterSpacing ?? 0.2),
     );
   }
 
@@ -28,7 +28,7 @@ class T {
       textAlign: textAlign ?? TextAlign.left,
       maxLines: maxline,
       overflow: overflow,
-      style: GoogleFonts.poppins(fontSize: size ?? 14.0, fontWeight: FontWeight.w600, color: color, letterSpacing: letterSpacing ?? 0.2),
+      style: GoogleFonts.poppins(fontSize: size ?? 14.0, fontWeight: FontWeight.w500, color: color, letterSpacing: letterSpacing ?? 0.2),
     );
   }
 
@@ -38,14 +38,14 @@ class T {
       textAlign: textAlign ?? TextAlign.left,
       maxLines: maxline,
       overflow: overflow,
-      style: GoogleFonts.poppins(fontSize: size ?? 14.0, fontWeight: FontWeight.w700, color: color, letterSpacing: letterSpacing ?? 0.2),
+      style: GoogleFonts.poppins(fontSize: size ?? 14.0, fontWeight: FontWeight.w600, color: color, letterSpacing: letterSpacing ?? 0.2),
     );
   }
 
   static TextStyle textpoppinsSetting({double? size, FontWeight? fontWeight, Color? color, FontStyle? fontStyle, TextDecoration? decoration, Color? backgroundColor, double? letterSpacing}) {
     return GoogleFonts.poppins(
       fontSize: size ?? 14.0,
-      fontWeight: fontWeight ?? FontWeight.w500,
+      fontWeight: fontWeight ?? FontWeight.w400,
       color: color ?? Colors.black,
       fontStyle: fontStyle ?? FontStyle.normal,
       decoration: decoration,

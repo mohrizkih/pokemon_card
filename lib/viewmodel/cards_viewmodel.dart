@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:pokemon_card/core/routes/app_router.dart';
 import 'package:pokemon_card/core/routes/app_router.gr.dart';
 import 'package:pokemon_card/model/card.dart';
 import 'package:pokemon_card/service_locator.dart';
 import 'package:pokemon_card/viewmodel/bloc/cards/cards_bloc.dart';
 import 'package:pokemon_card/viewmodel/bloc/detail_card/detail_card_bloc.dart';
+import 'package:rxdart/rxdart.dart';
 
 class CardsViewmodel extends ChangeNotifier {
   final CardsBloc cardsBloc;
@@ -15,6 +17,10 @@ class CardsViewmodel extends ChangeNotifier {
 
   CardsViewmodel(this.cardsBloc, this.detailCardBloc) {
     startScrollListener();
+
+    _searchQuery
+        .debounceTime(const Duration(milliseconds: 500)) // Debounce for 500 ms
+        .listen(onSearch);
 
     cardsBloc.stream.listen((state) {
       _state = state;
@@ -31,10 +37,12 @@ class CardsViewmodel extends ChangeNotifier {
 
   CardsState get state => _state;
 
-  String _searchQuery = '';
+  final _searchQuery = BehaviorSubject<String>();
 
-  set setSearchQuery(String value) {
-    _searchQuery = value;
+  Function(String) get onSearchChanged => _searchQuery.sink.add;
+
+  void onSearch(String? query) {
+    cardsBloc.add(FetchCardsEvent(searchQuery: query ?? '', page: 1));
   }
 
   void fetchCards({String? searchQuery, required int page}) {
@@ -59,7 +67,7 @@ class CardsViewmodel extends ChangeNotifier {
   void startScrollListener() {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels > (0.96 * _scrollController.position.maxScrollExtent) && state is! CardsLoading && (currentData < totalData)) {
-        fetchCards(page: currentPage + 1, searchQuery: _searchQuery);
+        fetchCards(page: currentPage + 1, searchQuery: _searchQuery.value);
       }
     });
   }
@@ -98,7 +106,8 @@ class CardsViewmodel extends ChangeNotifier {
   void dispose() {
     cardsBloc.close();
     detailCardBloc.close();
-    scrollController.dispose();
+    _scrollController.dispose();
+    _searchQuery.close();
     super.dispose();
   }
 }
