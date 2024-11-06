@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 extension WidgetExtension on Widget {
   Widget padded([final double value = 8]) => Padding(
@@ -46,11 +47,11 @@ extension WidgetExtension on Widget {
         child: this,
       );
 
-  // Widget loadShimmer() {
-  //   return Shimmer.fromColors(
-  //     baseColor: Colors.grey[300] ?? AppColor.grey2CF,
-  //     highlightColor: Colors.grey[100] ?? AppColor.grey1F1,
-  //     child: this,
-  //   );
-  // }
+  Widget loadShimmer() {
+    return Shimmer.fromColors(
+      baseColor: const Color(0xFFE0E0E0),
+      highlightColor: const Color(0xFFF5F5F5),
+      child: this,
+    );
+  }
 }

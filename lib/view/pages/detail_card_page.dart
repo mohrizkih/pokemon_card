@@ -2,7 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pokemon_card/core/core.dart';
 import 'package:pokemon_card/core/extensions/widget_extension.dart';
+import 'package:pokemon_card/core/widgets/skeleton/shimmer_box.dart';
 import 'package:pokemon_card/core/widgets/text/text.dart';
+import 'package:pokemon_card/model/card.dart';
 import 'package:pokemon_card/view/widgets/card_item_widget.dart';
 import 'package:pokemon_card/viewmodel/cards_viewmodel.dart';
 import 'package:provider/provider.dart';
@@ -33,13 +35,10 @@ class _DetailCardPageState extends State<DetailCardPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
-                child: CachedNetworkImage(
-                  imageUrl: pokemonCard.images.large,
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  fit: BoxFit.fitWidth,
-                  placeholder: (context, url) => const SizedBox(height: 30, width: 30, child: Center(child: CircularProgressIndicator())),
-                  errorWidget: (context, url, error) => const Icon(Icons.hide_image, size: 40),
-                ).bottomPadded(),
+                child: InkWell(
+                  onTap: () => _onTapImage(pokemonCard),
+                  child: _buildImage(pokemonCard, width: MediaQuery.of(context).size.width * 0.5).bottomPadded(),
+                ),
               ),
               T.poppinsMedium(pokemonCard.name, size: 32),
               if (pokemonCard.nationalPokedexNumbers.isNotEmpty) T.poppinsRegular('N${pokemonCard.nationalPokedexNumbers.firstOrNull?.toString() ?? ''}', size: 20),
@@ -60,7 +59,7 @@ class _DetailCardPageState extends State<DetailCardPage> {
               itemCount: viewModel.cardsRelated.length,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 250, childAspectRatio: 0.7),
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 250, childAspectRatio: 0.8),
               itemBuilder: (context, i) {
                 final card = viewModel.cardsRelated.elementAt(i);
                 if (i == viewModel.cardsRelated.length) {
@@ -81,5 +80,25 @@ class _DetailCardPageState extends State<DetailCardPage> {
               },
             );
     });
+  }
+
+  void _onTapImage(PokemonCard pokemonCard) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            child: _buildImage(pokemonCard, width: double.infinity),
+          );
+        });
+  }
+
+  CachedNetworkImage _buildImage(PokemonCard pokemonCard, {double? width}) {
+    return CachedNetworkImage(
+      imageUrl: pokemonCard.images.large,
+      width: width,
+      fit: BoxFit.fitWidth,
+      placeholder: (context, url) => ShimmerBox(height: MediaQuery.of(context).size.width * 0.7, width: MediaQuery.of(context).size.width * 0.5).loadShimmer(),
+      errorWidget: (context, url, error) => const Icon(Icons.hide_image, size: 40),
+    );
   }
 }

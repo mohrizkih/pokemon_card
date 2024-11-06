@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pokemon_card/core/core.dart';
 import 'package:pokemon_card/core/extensions/widget_extension.dart';
+import 'package:pokemon_card/core/widgets/skeleton/shimmer_box.dart';
 import 'package:pokemon_card/view/widgets/card_item_widget.dart';
 import 'package:pokemon_card/viewmodel/cards_viewmodel.dart';
 import 'package:provider/provider.dart';
@@ -43,11 +44,14 @@ class _CardsPageState extends State<CardsPage> {
                 children: [
                   Flexible(
                     child: GridView.builder(
-                      itemCount: viewModel.cards.length,
+                      itemCount: viewModel.cards.length + (viewModel.isLoading && viewModel.currentPage > 0 ? 8 : 0),
                       shrinkWrap: true,
                       controller: viewModel.scrollController,
-                      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 250, childAspectRatio: 0.7),
+                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: MediaQuery.of(context).size.width * 0.5, childAspectRatio: 0.8),
                       itemBuilder: (context, i) {
+                        if (i >= viewModel.cards.length) {
+                          return ShimmerBox().paddedLTRB(left: 27, right: 27, top: 20, bottom: 50).loadShimmer();
+                        }
                         final card = viewModel.cards.elementAt(i);
                         return GestureDetector(
                           onTap: () => viewModel.onTapCard(card),
@@ -60,14 +64,14 @@ class _CardsPageState extends State<CardsPage> {
                       },
                     ),
                   ),
-                  if (viewModel.isLoading && viewModel.currentPage > 0)
-                    const Center(
-                      child: SizedBox(
-                        width: 30,
-                        height: 30,
-                        child: Center(child: CircularProgressIndicator()),
-                      ),
-                    ),
+                  // if (viewModel.isLoading && viewModel.currentPage > 0)
+                  //   const Center(
+                  //     child: SizedBox(
+                  //       width: 30,
+                  //       height: 30,
+                  //       child: Center(child: CircularProgressIndicator()),
+                  //     ),
+                  //   ),
                 ],
               );
       }).padded(),

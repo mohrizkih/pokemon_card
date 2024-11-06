@@ -24,7 +24,7 @@ class CardsBloc extends Bloc<CardsEvent, CardsState> {
       PokemonCardResponse res = await _restClient.doGetCards(
         page: event.page,
         pageSize: 30,
-        query: event.searchQuery.isNotEmpty ? 'name:${event.searchQuery}' : null,
+        query: event.searchQuery.isNotEmpty ? 'name:${event.searchQuery} supertype:Pokémon' : 'supertype:Pokémon',
         orderBy: '-set.releaseDate',
       );
 
