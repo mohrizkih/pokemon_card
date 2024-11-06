@@ -10,16 +10,21 @@ sealed class CardsState extends Equatable {
 final class CardsInitial extends CardsState {}
 
 final class CardsLoading extends CardsState {
-  const CardsLoading();
+  final PokemonCardResponse? cardResponse;
+
+  const CardsLoading({this.cardResponse});
+
+  @override
+  List<Object?> get props => [cardResponse];
 }
 
 class CardsLoaded extends CardsState {
-  final Iterable<PokemonCard> cards;
+  final PokemonCardResponse cardResponse;
 
-  const CardsLoaded(this.cards);
+  const CardsLoaded(this.cardResponse);
 
   @override
-  List<Object?> get props => [cards];
+  List<Object?> get props => [cardResponse];
 }
 
 class CardsError extends CardsState {

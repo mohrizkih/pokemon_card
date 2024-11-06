@@ -8,6 +8,7 @@ class CardsViewmodel extends ChangeNotifier {
   CardsState _state = CardsInitial();
 
   CardsViewmodel(this.cardsBloc) {
+    startScrollListener();
     cardsBloc.stream.listen((state) {
       _state = state;
       notifyListeners();
@@ -16,25 +17,43 @@ class CardsViewmodel extends ChangeNotifier {
 
   CardsState get state => _state;
 
-  void fetchCards(String searchQuery) {
-    cardsBloc.add(FetchCardsEvent(searchQuery));
+  String _searchQuery = '';
+
+  set setSearchQuery(String value) {
+    _searchQuery = value;
   }
 
-  // Helper method to check if user data is loading
+  void fetchCards({String? searchQuery, required int page}) {
+    cardsBloc.add(FetchCardsEvent(searchQuery: searchQuery ?? '', page: page));
+  }
+
   bool get isLoading => _state is CardsLoading;
 
-  // Helper method to check if user data was successfully loaded
   bool get hasCards => _state is CardsLoaded;
 
-  // Get the user data if available
-  Iterable<PokemonCard>? get cards => hasCards ? (_state as CardsLoaded).cards : null;
+  int get totalData => hasCards ? (_state as CardsLoaded).cardResponse.totalCount : 0;
+  int get currentData => hasCards ? (_state as CardsLoaded).cardResponse.count : 0;
+  int get currentPage => hasCards ? (currentData / 30).floor() : 0;
 
-  // Get error message if an error occurred
+  Iterable<PokemonCard> get cards => hasCards ? (_state as CardsLoaded).cardResponse.data : (isLoading ? ((_state as CardsLoading).cardResponse?.data ?? []) : []);
+
   String? get errorMessage => _state is CardsError ? (_state as CardsError).message : null;
+
+  final ScrollController _scrollController = ScrollController();
+  ScrollController get scrollController => _scrollController;
+
+  void startScrollListener() {
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels > (0.9 * _scrollController.position.maxScrollExtent) && state is! CardsLoading && (currentData < totalData)) {
+        fetchCards(page: currentPage + 1, searchQuery: _searchQuery);
+      }
+    });
+  }
 
   @override
   void dispose() {
     cardsBloc.close(); // Clean up the bloc
+    scrollController.dispose();
     super.dispose();
   }
 }

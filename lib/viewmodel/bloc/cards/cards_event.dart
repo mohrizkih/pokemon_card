@@ -9,7 +9,8 @@ sealed class CardsEvent extends Equatable {
 
 class FetchCardsEvent extends CardsEvent {
   final String searchQuery;
-  const FetchCardsEvent(this.searchQuery);
+  final int page;
+  const FetchCardsEvent({required this.searchQuery, required this.page});
   @override
   List<Object> get props => [];
 }

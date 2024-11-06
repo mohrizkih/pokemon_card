@@ -1,7 +1,7 @@
 import 'package:pokemon_card/model/card.dart';
 
 class PokemonCardResponse {
-  final Iterable<PokemonCard> data;
+  Iterable<PokemonCard> data;
   final int page;
   final int pageSize;
   final int count;
