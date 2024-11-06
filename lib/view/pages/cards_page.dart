@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pokemon_card/core/core.dart';
+import 'package:pokemon_card/core/extensions/widget_extension.dart';
+import 'package:pokemon_card/view/widgets/card_item_widget.dart';
 import 'package:pokemon_card/viewmodel/cards_viewmodel.dart';
 import 'package:provider/provider.dart';
 
@@ -26,8 +28,22 @@ class _CardsPageState extends State<CardsPage> {
         title: const Text('Pokemon Cards'),
       ),
       body: Consumer<CardsViewmodel>(builder: (context, viewModel, child) {
-        return viewModel.isLoading ? const Center(child: CircularProgressIndicator()) : Text(viewModel.cards.toString());
-      }),
+        return viewModel.isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : GridView.builder(
+                itemCount: viewModel.cards?.length ?? 0,
+                shrinkWrap: true,
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 250, childAspectRatio: 0.7),
+                itemBuilder: (context, i) {
+                  final card = viewModel.cards?.elementAt(i);
+                  return CardItemWidget(
+                    imageUrl: card?.images.small ?? '',
+                    title: card?.name ?? 'Undefined',
+                    types: (card?.types ?? []).map((e) => e.type).toList(),
+                  );
+                },
+              );
+      }).padded(),
     );
   }
 }
