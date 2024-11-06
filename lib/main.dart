@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pokemon_card/core/routes/app_router.dart';
 import 'package:pokemon_card/service_locator.dart';
 import 'package:pokemon_card/viewmodel/bloc/cards/cards_bloc.dart';
+import 'package:pokemon_card/viewmodel/bloc/detail_card/detail_card_bloc.dart';
 import 'package:pokemon_card/viewmodel/cards_viewmodel.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +24,7 @@ class MainApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider(create: (_) => sl<CardsBloc>()),
+        Provider(create: (_) => sl<DetailCardBloc>()),
         ChangeNotifierProvider(create: (context) => sl<CardsViewmodel>()),
       ],
       child: MaterialApp.router(

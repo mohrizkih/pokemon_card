@@ -15,5 +15,6 @@ abstract class RestClient {
     @Query('q') String? query,
     @Query('page') required int page,
     @Query('pageSize') required int pageSize,
+    @Query('orderBy') String? orderBy,
   });
 }

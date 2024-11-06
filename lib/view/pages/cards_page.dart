@@ -17,11 +17,17 @@ class CardsPage extends StatefulWidget {
 class _CardsPageState extends State<CardsPage> {
   @override
   void initState() {
-    Permission.notification.request();
+    _checkPermission();
     CardsViewmodel cardsViewmodel = Provider.of<CardsViewmodel>(context, listen: false);
     cardsViewmodel.fetchCards(page: 1);
     // cardsViewmodel.startScrollListener();
     super.initState();
+  }
+
+  void _checkPermission() async {
+    if (!(await Permission.notification.isGranted)) {
+      Permission.notification.request();
+    }
   }
 
   @override
@@ -31,28 +37,38 @@ class _CardsPageState extends State<CardsPage> {
         title: const Text('Pokemon Cards'),
       ),
       body: Consumer<CardsViewmodel>(builder: (context, viewModel, child) {
-        return viewModel.isLoading && (viewModel.currentPage == 1)
+        return viewModel.isLoading && (viewModel.currentPage == 0)
             ? const Center(child: CircularProgressIndicator())
-            : GridView.builder(
-                itemCount: viewModel.cards.length + (viewModel.currentPage > 1 ? 1 : 0),
-                shrinkWrap: true,
-                controller: viewModel.scrollController,
-                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 250, childAspectRatio: 0.7),
-                itemBuilder: (context, i) {
-                  final card = viewModel.cards.elementAt(i);
-                  if (i == viewModel.cards.length) {
-                    return const SizedBox(
-                      width: 30,
-                      height: 30,
-                      child: Center(child: CircularProgressIndicator()),
-                    );
-                  }
-                  return CardItemWidget(
-                    imageUrl: card.images.small,
-                    title: card.name,
-                    types: (card.types).map((e) => e.type).toList(),
-                  );
-                },
+            : Column(
+                children: [
+                  Flexible(
+                    child: GridView.builder(
+                      itemCount: viewModel.cards.length,
+                      shrinkWrap: true,
+                      controller: viewModel.scrollController,
+                      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 250, childAspectRatio: 0.7),
+                      itemBuilder: (context, i) {
+                        final card = viewModel.cards.elementAt(i);
+                        return GestureDetector(
+                          onTap: () => viewModel.onTapCard(card),
+                          child: CardItemWidget(
+                            imageUrl: card.images.small,
+                            title: card.name,
+                            types: (card.types).map((e) => e.type).toList(),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  if (viewModel.isLoading && viewModel.currentPage > 0)
+                    const Center(
+                      child: SizedBox(
+                        width: 30,
+                        height: 30,
+                        child: Center(child: CircularProgressIndicator()),
+                      ),
+                    ),
+                ],
               );
       }).padded(),
     );

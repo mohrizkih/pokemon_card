@@ -25,10 +25,11 @@ class CardsBloc extends Bloc<CardsEvent, CardsState> {
         page: event.page,
         pageSize: 30,
         query: event.searchQuery.isNotEmpty ? 'name:${event.searchQuery}' : null,
+        orderBy: '-set.releaseDate',
       );
 
       if (initialData != null) {
-        res.data = res.data.toList() + initialData.data.toList();
+        res.data = initialData.data.toList() + res.data.toList();
       }
 
       emit(CardsLoaded(res));

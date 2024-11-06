@@ -26,12 +26,14 @@ class _RestClient implements RestClient {
     String? query,
     required int page,
     required int pageSize,
+    String? orderBy,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'q': query,
       r'page': page,
       r'pageSize': pageSize,
+      r'orderBy': orderBy,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
