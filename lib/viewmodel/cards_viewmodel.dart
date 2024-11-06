@@ -18,9 +18,7 @@ class CardsViewmodel extends ChangeNotifier {
   CardsViewmodel(this.cardsBloc, this.detailCardBloc) {
     startScrollListener();
 
-    _searchQuery
-        .debounceTime(const Duration(milliseconds: 500)) // Debounce for 500 ms
-        .listen(onSearch);
+    _searchQuery.debounceTime(const Duration(milliseconds: 500)).listen(onSearch);
 
     cardsBloc.stream.listen((state) {
       _state = state;
@@ -51,6 +49,8 @@ class CardsViewmodel extends ChangeNotifier {
 
   bool get isLoading => _state is CardsLoading;
 
+  bool get isError => _state is CardsError;
+
   bool get hasCards => _state is CardsLoaded;
 
   int get totalData => hasCards ? (_state as CardsLoaded).cardResponse.totalCount : (isLoading ? ((_state as CardsLoading).cardResponse?.totalCount ?? 0) : 0);
@@ -67,7 +67,7 @@ class CardsViewmodel extends ChangeNotifier {
   void startScrollListener() {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels > (0.96 * _scrollController.position.maxScrollExtent) && state is! CardsLoading && (currentData < totalData)) {
-        fetchCards(page: currentPage + 1, searchQuery: _searchQuery.value);
+        fetchCards(page: currentPage + 1, searchQuery: _searchQuery.valueOrNull);
       }
     });
   }

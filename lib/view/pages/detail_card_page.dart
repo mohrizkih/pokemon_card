@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pokemon_card/core/core.dart';
 import 'package:pokemon_card/core/extensions/widget_extension.dart';
+import 'package:pokemon_card/core/widgets/container/connection_container.dart';
 import 'package:pokemon_card/core/widgets/skeleton/shimmer_box.dart';
 import 'package:pokemon_card/core/widgets/text/text.dart';
 import 'package:pokemon_card/model/card.dart';
@@ -29,23 +30,25 @@ class _DetailCardPageState extends State<DetailCardPage> {
         appBar: AppBar(
           title: T.poppinsSemiBold(''),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: InkWell(
-                  onTap: () => _onTapImage(pokemonCard),
-                  child: _buildImage(pokemonCard, width: MediaQuery.of(context).size.width * 0.5).bottomPadded(),
+        body: ConnectionContainer(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: InkWell(
+                    onTap: () => _onTapImage(pokemonCard),
+                    child: _buildImage(pokemonCard, width: MediaQuery.of(context).size.width * 0.5).bottomPadded(),
+                  ),
                 ),
-              ),
-              T.poppinsMedium(pokemonCard.name, size: 32),
-              if (pokemonCard.nationalPokedexNumbers.isNotEmpty) T.poppinsRegular('N${pokemonCard.nationalPokedexNumbers.firstOrNull?.toString() ?? ''}', size: 20),
-              T.poppinsSemiBold('Card Recommendations', size: 16),
-              _buildCardRecommendation(),
-            ],
-          ).padded(),
+                T.poppinsMedium(pokemonCard.name, size: 32),
+                if (pokemonCard.nationalPokedexNumbers.isNotEmpty) T.poppinsRegular('N${pokemonCard.nationalPokedexNumbers.firstOrNull?.toString() ?? ''}', size: 20),
+                T.poppinsSemiBold('Card Recommendations', size: 16),
+                _buildCardRecommendation(),
+              ],
+            ).padded(),
+          ),
         ),
       );
     });
@@ -59,7 +62,7 @@ class _DetailCardPageState extends State<DetailCardPage> {
               itemCount: viewModel.cardsRelated.length,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 250, childAspectRatio: 0.8),
+              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: MediaQuery.of(context).size.width * 0.5, childAspectRatio: 0.8),
               itemBuilder: (context, i) {
                 final card = viewModel.cardsRelated.elementAt(i);
                 if (i == viewModel.cardsRelated.length) {
