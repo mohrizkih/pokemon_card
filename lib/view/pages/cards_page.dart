@@ -66,26 +66,30 @@ class _CardsPageState extends State<CardsPage> {
 
   Flexible _buildDataWidget(CardsViewmodel viewModel, BuildContext context) {
     return Flexible(
-      child: GridView.builder(
-        itemCount: viewModel.cards.length + (viewModel.isLoading ? 8 : 0),
-        shrinkWrap: true,
-        controller: viewModel.scrollController,
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: MediaQuery.of(context).size.width * 0.5, childAspectRatio: 0.8),
-        itemBuilder: (context, i) {
-          if (i >= viewModel.cards.length) {
-            return ShimmerBox().paddedLTRB(left: 27, right: 27, top: 20, bottom: 50).loadShimmer();
-          }
-          final card = viewModel.cards.elementAt(i);
-          return GestureDetector(
-            onTap: () => viewModel.onTapCard(card),
-            child: CardItemWidget(
-              imageUrl: card.images.small,
-              title: card.name,
-              types: (card.types).map((e) => e.type).toList(),
+      child: (viewModel.hasCards && viewModel.cards.isEmpty)
+          ? Center(
+              child: T.poppinsRegular('Cards Not Found'),
+            )
+          : GridView.builder(
+              itemCount: viewModel.cards.length + (viewModel.isLoading ? 8 : 0),
+              shrinkWrap: true,
+              controller: viewModel.scrollController,
+              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: MediaQuery.of(context).size.width * 0.5, childAspectRatio: 0.8),
+              itemBuilder: (context, i) {
+                if (i >= viewModel.cards.length) {
+                  return ShimmerBox().paddedLTRB(left: 27, right: 27, top: 20, bottom: 50).loadShimmer();
+                }
+                final card = viewModel.cards.elementAt(i);
+                return GestureDetector(
+                  onTap: () => viewModel.onTapCard(card),
+                  child: CardItemWidget(
+                    imageUrl: card.images.small,
+                    title: card.name,
+                    types: (card.types).map((e) => e.type).toList(),
+                  ),
+                );
+              },
             ),
-          );
-        },
-      ),
     );
   }
 }
