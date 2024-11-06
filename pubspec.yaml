@@ -25,6 +25,7 @@ dependencies:
   flutter_native_splash: ^2.3.13
   rxdart: ^0.27.0
   connectivity_plus: ^5.0.2
+  flutter_svg: ^2.0.13
 
 dev_dependencies:
   flutter_test:
@@ -36,6 +37,10 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/images/types/
 
 flutter_native_splash:
   color: "#ffffff"
