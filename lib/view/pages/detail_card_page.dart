@@ -7,6 +7,7 @@ import 'package:pokemon_card/core/widgets/skeleton/shimmer_box.dart';
 import 'package:pokemon_card/core/widgets/text/text.dart';
 import 'package:pokemon_card/model/card.dart';
 import 'package:pokemon_card/view/widgets/card_item_widget.dart';
+import 'package:pokemon_card/view/widgets/type_widget.dart';
 import 'package:pokemon_card/viewmodel/cards_viewmodel.dart';
 import 'package:provider/provider.dart';
 
@@ -26,6 +27,8 @@ class _DetailCardPageState extends State<DetailCardPage> {
       if (pokemonCard == null) {
         return const SizedBox();
       }
+      final ability = pokemonCard.abilities.map((e) => e.text).join('\n');
+      final rule = (pokemonCard.rules ?? []).map((e) => e).join('\n');
       return Scaffold(
         appBar: AppBar(
           title: T.poppinsSemiBold(''),
@@ -39,15 +42,35 @@ class _DetailCardPageState extends State<DetailCardPage> {
                 Center(
                   child: InkWell(
                     onTap: () => _onTapImage(pokemonCard),
-                    child: _buildImage(pokemonCard, width: MediaQuery.of(context).size.width * 0.5).bottomPadded(),
+                    child: _buildImage(pokemonCard, width: MediaQuery.of(context).size.width * 0.5),
                   ),
-                ),
-                T.poppinsMedium(pokemonCard.name, size: 32),
-                if (pokemonCard.nationalPokedexNumbers.isNotEmpty) T.poppinsRegular('N${pokemonCard.nationalPokedexNumbers.firstOrNull?.toString() ?? ''}', size: 20),
+                ).bottomPadded(),
+                T.poppinsMedium(pokemonCard.name, size: 32, height: 1),
+                T.poppinsRegular('N${pokemonCard.nationalPokedexNumbers.firstOrNull?.toString() ?? '-'}', size: 18).bottomPadded(),
+                T.poppinsMedium('Type', size: 18),
+                Wrap(
+                  children: pokemonCard.types.map((e) => TypeWidget(type: e.type).rightPadded()).toList(),
+                ).bottomPadded(16),
+                if (ability.isNotEmpty) T.poppinsMedium('Ability', size: 18),
+                if (ability.isNotEmpty) T.poppinsRegular(ability).bottomPadded(),
+                if (rule.isNotEmpty) T.poppinsMedium('Rule', size: 18),
+                if (rule.isNotEmpty) T.poppinsRegular(rule).bottomPadded(),
+                T.poppinsMedium('Weakness', size: 18),
+                Wrap(
+                  children: pokemonCard.weaknesses
+                      .map((e) => Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              TypeWidget(type: e.type).rightPadded(4),
+                              T.poppinsMedium(e.value, size: 20),
+                            ],
+                          ).rightPadded(16))
+                      .toList(),
+                ).bottomPadded(16),
                 T.poppinsSemiBold('Card Recommendations', size: 16),
                 _buildCardRecommendation(),
               ],
-            ).padded(),
+            ).padded(16),
           ),
         ),
       );
@@ -62,7 +85,7 @@ class _DetailCardPageState extends State<DetailCardPage> {
               itemCount: viewModel.cardsRelated.length,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: MediaQuery.of(context).size.width * 0.5, childAspectRatio: 0.8),
+              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: MediaQuery.of(context).size.width * 0.5, childAspectRatio: 0.75),
               itemBuilder: (context, i) {
                 final card = viewModel.cardsRelated.elementAt(i);
                 if (i == viewModel.cardsRelated.length) {

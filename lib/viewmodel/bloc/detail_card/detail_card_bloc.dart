@@ -20,7 +20,6 @@ class DetailCardBloc extends Bloc<DetailCardEvent, DetailCardState> {
         page: 1,
         pageSize: 10,
         query: event.types?.isEmpty == true ? 'supertype:${event.supertype}' : 'types:${event.types}',
-        orderBy: '-set.releaseDate',
       );
 
       emit(DetailCardLoaded(res));

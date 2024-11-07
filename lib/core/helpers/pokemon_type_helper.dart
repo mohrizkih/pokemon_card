@@ -29,4 +29,18 @@ class PokemonTypeHelper {
     "Psychic": 'ic_psychic.svg',
     "Water": 'ic_water.svg',
   };
+
+  Color toColor(String type) {
+    if (mapTypeToColor.containsKey(type)) {
+      return mapTypeToColor[type] ?? C.normal;
+    }
+    return C.normal;
+  }
+
+  String toImagePath(String type) {
+    if (mapTypeToSvg.containsKey(type)) {
+      return mapTypeToSvg[type] ?? 'ic_normal.svg';
+    }
+    return 'ic_normal.svg';
+  }
 }

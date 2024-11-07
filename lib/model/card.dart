@@ -31,6 +31,7 @@ class PokemonCard extends Equatable {
     required this.retreatCost,
     required this.images,
     required this.tcgPlayer,
+    this.rules,
   });
 
   factory PokemonCard.fromJson(Map<String, dynamic> json) {
@@ -42,6 +43,7 @@ class PokemonCard extends Equatable {
     List<Weakness> _weaknesses = [];
     List<Resistance> _resistances = [];
     List<String> _retreatCost = [];
+    List<String> _rules = [];
 
     if (json['subtypes'] != null) {
       json['subtypes'].forEach((element) => _subtypes.add(Subtype(type: element)));
@@ -75,6 +77,10 @@ class PokemonCard extends Equatable {
       json['retreatCost'].forEach((element) => _retreatCost.add(element));
     }
 
+    if (json['rules'] != null) {
+      json['rules'].forEach((element) => _rules.add(element));
+    }
+
     return PokemonCard(
       id: json['id'],
       name: json['name'],
@@ -97,6 +103,7 @@ class PokemonCard extends Equatable {
       resistances: _resistances,
       retreatCost: _retreatCost,
       images: CardImages.fromJson(json['images']),
+      rules: _rules,
       tcgPlayer: json['tcgplayer'],
     );
   }
@@ -115,6 +122,7 @@ class PokemonCard extends Equatable {
   final String? flavorText;
   final List<int> nationalPokedexNumbers;
   final List<ElementalType> types;
+  final List<String>? rules;
   final List<Subtype> subtypes;
   final List<Ability> abilities;
   final List<Attack> attacks;

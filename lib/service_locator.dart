@@ -2,6 +2,7 @@ import 'package:alice/alice.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pokemon_card/core/constants/url.dart';
+import 'package:pokemon_card/core/helpers/pokemon_type_helper.dart';
 import 'package:pokemon_card/core/repositories/rest_client.dart';
 import 'package:pokemon_card/core/routes/app_router.dart';
 import 'package:pokemon_card/core/widgets/container/connection_viewmodel.dart';
@@ -23,6 +24,8 @@ Future<void> initSL() async {
   sl.registerSingleton<Dio>(dio);
 
   sl.registerLazySingleton<RestClient>(() => RestClient(sl(), baseUrl: baseUrl));
+
+  sl.registerLazySingleton(() => PokemonTypeHelper());
 
   sl.registerLazySingleton<CardsBloc>(() => CardsBloc(sl()));
   sl.registerLazySingleton<DetailCardBloc>(() => DetailCardBloc(sl()));
