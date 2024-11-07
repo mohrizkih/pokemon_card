@@ -1,6 +1,9 @@
+// ignore_for_file: must_be_immutable
+
+import 'package:equatable/equatable.dart';
 import 'package:pokemon_card/model/card.dart';
 
-class PokemonCardResponse {
+class PokemonCardResponse extends Equatable {
   Iterable<PokemonCard> data;
   final int page;
   final int pageSize;
@@ -23,4 +26,7 @@ class PokemonCardResponse {
 
     return PokemonCardResponse(data: cards, page: json['page'], pageSize: json['pageSize'], count: json['count'], totalCount: json['totalCount']);
   }
+
+  @override
+  List<Object?> get props => [data, page, pageSize, count, totalCount];
 }
