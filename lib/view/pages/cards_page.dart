@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pokemon_card/core/core.dart';
-import 'package:pokemon_card/core/extensions/widget_extension.dart';
-import 'package:pokemon_card/core/widgets/container/connection_container.dart';
-import 'package:pokemon_card/core/widgets/skeleton/shimmer_box.dart';
-import 'package:pokemon_card/core/widgets/text/text.dart';
-import 'package:pokemon_card/core/widgets/text_field.dart/generic_text_field.dart';
 import 'package:pokemon_card/view/widgets/card_item_widget.dart';
 import 'package:pokemon_card/viewmodel/cards_viewmodel.dart';
 import 'package:provider/provider.dart';

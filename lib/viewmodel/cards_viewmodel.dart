@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:pokemon_card/core/routes/app_router.dart';
-import 'package:pokemon_card/core/routes/app_router.gr.dart';
+import 'package:pokemon_card/core/core.dart';
 import 'package:pokemon_card/model/pokemon_card_response.dart';
 import 'package:pokemon_card/service_locator.dart';
 import 'package:pokemon_card/viewmodel/bloc/cards/cards_bloc.dart';

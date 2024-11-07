@@ -1,12 +1,7 @@
 import 'package:alice/alice.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:pokemon_card/core/constants/url.dart';
-import 'package:pokemon_card/core/enums/enum.dart';
-import 'package:pokemon_card/core/flavor/flavor_config.dart';
-import 'package:pokemon_card/core/helpers/pokemon_type_helper.dart';
-import 'package:pokemon_card/core/repositories/rest_client.dart';
-import 'package:pokemon_card/core/routes/app_router.dart';
+import 'package:pokemon_card/core/core.dart';
 import 'package:pokemon_card/core/widgets/container/connection_viewmodel.dart';
 import 'package:pokemon_card/viewmodel/bloc/cards/cards_bloc.dart';
 import 'package:pokemon_card/viewmodel/bloc/detail_card/detail_card_bloc.dart';

@@ -1,10 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pokemon_card/core/core.dart';
-import 'package:pokemon_card/core/extensions/widget_extension.dart';
-import 'package:pokemon_card/core/widgets/container/connection_container.dart';
-import 'package:pokemon_card/core/widgets/skeleton/shimmer_box.dart';
-import 'package:pokemon_card/core/widgets/text/text.dart';
 import 'package:pokemon_card/model/pokemon_card_response.dart';
 import 'package:pokemon_card/view/widgets/card_item_widget.dart';
 import 'package:pokemon_card/view/widgets/type_widget.dart';

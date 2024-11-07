@@ -1,8 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:pokemon_card/core/extensions/widget_extension.dart';
-import 'package:pokemon_card/core/widgets/skeleton/shimmer_box.dart';
-import 'package:pokemon_card/core/widgets/text/text.dart';
+import 'package:pokemon_card/core/core.dart';
 
 class CardItemWidget extends StatelessWidget {
   final String imageUrl;

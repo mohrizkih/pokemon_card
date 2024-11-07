@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:pokemon_card/core/extensions/widget_extension.dart';
-import 'package:pokemon_card/core/helpers/image_helper.dart';
-import 'package:pokemon_card/core/helpers/pokemon_type_helper.dart';
-import 'package:pokemon_card/core/widgets/text/text.dart';
+import 'package:pokemon_card/core/core.dart';
 import 'package:pokemon_card/service_locator.dart';
 
 class TypeWidget extends StatelessWidget {
