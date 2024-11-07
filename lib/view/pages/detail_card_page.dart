@@ -79,32 +79,33 @@ class _DetailCardPageState extends State<DetailCardPage> {
 
   Widget _buildCardRecommendation() {
     return Consumer<CardsViewmodel>(builder: (context, viewModel, child) {
-      return viewModel.isLoadingDetail
-          ? const Center(child: CircularProgressIndicator())
-          : GridView.builder(
-              itemCount: viewModel.cardsRelated.length,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: MediaQuery.of(context).size.width * 0.5, childAspectRatio: 0.75),
-              itemBuilder: (context, i) {
-                final card = viewModel.cardsRelated.elementAt(i);
-                if (i == viewModel.cardsRelated.length) {
-                  return const SizedBox(
-                    width: 30,
-                    height: 30,
-                    child: Center(child: CircularProgressIndicator()),
-                  );
-                }
-                return GestureDetector(
-                  onTap: () => viewModel.onTapCard(card, isFromDetail: true),
-                  child: CardItemWidget(
-                    imageUrl: card.images.small,
-                    title: card.name,
-                    types: (card.types).map((e) => e.type).toList(),
-                  ),
-                );
-              },
+      return GridView.builder(
+        itemCount: viewModel.cardsRelated.length + (viewModel.isLoadingDetail ? 8 : 0),
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: MediaQuery.of(context).size.width * 0.5, childAspectRatio: 0.75),
+        itemBuilder: (context, i) {
+          if (i >= viewModel.cardsRelated.length) {
+            return ShimmerBox().paddedLTRB(left: 27, right: 27, top: 20, bottom: 50).loadShimmer();
+          }
+          final card = viewModel.cardsRelated.elementAt(i);
+          if (i == viewModel.cardsRelated.length) {
+            return const SizedBox(
+              width: 30,
+              height: 30,
+              child: Center(child: CircularProgressIndicator()),
             );
+          }
+          return GestureDetector(
+            onTap: () => viewModel.onTapCard(card, isFromDetail: true),
+            child: CardItemWidget(
+              imageUrl: card.images.small,
+              title: card.name,
+              types: (card.types).map((e) => e.type).toList(),
+            ),
+          );
+        },
+      );
     });
   }
 
