@@ -1,1 +1,0 @@
-enum FlavorType { dev, prod }
