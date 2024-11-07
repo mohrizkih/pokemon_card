@@ -21,7 +21,6 @@ class _ConnectionContainerState extends State<ConnectionContainer> {
   @override
   Widget build(BuildContext context) {
     return Consumer<ConnectionViewmodel>(builder: (context, viewModel, child) {
-      print(viewModel.isConnected);
       return Stack(children: [
         widget.child,
         if (!viewModel.isConnected) _noInternet(viewModel),

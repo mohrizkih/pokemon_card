@@ -8,7 +8,7 @@ import 'package:pokemon_card/service_locator.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   FlavorConfig(
-    flavor: FlavorType.prod,
+    flavor: FlavorType.dev,
     server: baseUrl,
   );
   await initSL();
