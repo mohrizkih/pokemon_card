@@ -28,11 +28,11 @@ dependencies:
   flutter_svg: ^2.0.13
   bloc_test: ^9.0.3
   freezed_annotation: ^2.2.0
-  retrofit_generator: ^8.2.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  retrofit_generator: ^8.2.1
   flutter_lints: ^3.0.0
   build_runner: ^2.4.11
   auto_route_generator: ^7.3.2

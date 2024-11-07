@@ -45,28 +45,45 @@ void main() {
         const CardsLoaded(mockPokemonCardResponse),
       ],
     );
+
+    blocTest<CardsBloc, CardsState>(
+      'emits [CardsLoading, CardsLoaded] with paginated data',
+      build: () {
+        when(mockRestClient.doGetCards(
+          page: 2,
+          pageSize: 30,
+          query: 'supertype:Pokémon',
+          orderBy: '-set.releaseDate',
+        )).thenAnswer((_) async {
+          return page2data;
+        });
+
+        return CardsBloc(mockRestClient)..emit(const CardsLoaded(initialData));
+      },
+      act: (bloc) => bloc.add(const FetchCardsEvent(page: 2, searchQuery: '')),
+      expect: () => [
+        const CardsLoading(cardResponse: initialData),
+        const CardsLoaded(combinedData),
+      ],
+    );
+
+    blocTest<CardsBloc, CardsState>(
+      'emits [CardsLoading, CardsError] when fetch fails',
+      build: () {
+        when(mockRestClient.doGetCards(
+          page: 1,
+          pageSize: 30,
+          query: 'supertype:Pokémon',
+          orderBy: '-set.releaseDate',
+        )).thenThrow(Exception('Error fetching cards'));
+
+        return cardsBloc;
+      },
+      act: (bloc) => bloc.add(const FetchCardsEvent(page: 1, searchQuery: '')),
+      expect: () => [
+        const CardsLoading(),
+        const CardsError('Exception: Error fetching cards'),
+      ],
+    );
   });
-
-  blocTest<CardsBloc, CardsState>(
-    'emits [CardsLoading, CardsLoaded] with paginated data',
-    build: () {
-      // Initial data for page 1
-
-      when(mockRestClient.doGetCards(
-        page: 2,
-        pageSize: 10,
-        query: 'supertype:Pokémon',
-        orderBy: '-set.releaseDate',
-      )).thenAnswer((_) async {
-        return page2data;
-      });
-
-      return CardsBloc(mockRestClient)..emit(CardsLoaded(initialData)); // Simulate an already-loaded page 1
-    },
-    act: (bloc) => bloc.add(const FetchCardsEvent(page: 2, searchQuery: '')),
-    expect: () => [
-      CardsLoading(cardResponse: initialData), // Uses page 1 data
-      CardsLoaded(combinedData), // Combined data of page 1 and page 2
-    ],
-  );
 }

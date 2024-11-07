@@ -4,7 +4,15 @@ const mockPokemonCard = PokemonCard(
   id: 'xy7-54',
   name: 'Pikachu',
   supertype: 'Pokémon',
+  subtypes: [],
   hp: '60',
+  types: ['Electric'],
+  evolvesTo: [],
+  rules: [],
+  attacks: [],
+  weaknesses: [],
+  abilities: [],
+  retreatCost: [],
   legalities: Legalities(
     expanded: 'legal',
     unlimited: 'legal',
@@ -29,48 +37,41 @@ const mockPokemonCard = PokemonCard(
     images: SetImages(symbol: '', logo: ''),
   ),
   nationalPokedexNumbers: [25],
-  types: ['Electric'],
-  rules: [],
-  subtypes: [],
-  // abilities: const [],
-  attacks: [],
-  weaknesses: [],
-  retreatCost: [],
   images: DatumImages(
     small: 'https://images.pokemontcg.io/xy7/54.png',
     large: 'https://images.pokemontcg.io/xy7/54_hires.png',
   ),
-  tcgplayer: null,
+  tcgplayer: Tcgplayer(),
 );
 
 const mockPokemonCardResponse = PokemonCardResponse(
   data: [mockPokemonCard],
   page: 1,
-  pageSize: 10,
+  pageSize: 30,
   count: 1,
-  totalCount: 1,
+  totalCount: 30,
 );
 
-final initialData = PokemonCardResponse(
-  data: List.generate(10, (i) => mockPokemonCard),
+const initialData = PokemonCardResponse(
+  data: [mockPokemonCard],
   page: 1,
-  pageSize: 10,
-  count: 10,
+  pageSize: 1,
+  count: 1,
   totalCount: 20,
 );
 
-final page2data = PokemonCardResponse(
-  data: List.generate(10, (i) => mockPokemonCard),
+const page2data = PokemonCardResponse(
+  data: [mockPokemonCard],
   page: 2,
-  pageSize: 10,
-  count: 10,
+  pageSize: 1,
+  count: 1,
   totalCount: 20,
 );
 
-final combinedData = PokemonCardResponse(
-  data: List.generate(20, (i) => mockPokemonCard),
+const combinedData = PokemonCardResponse(
+  data: [mockPokemonCard, mockPokemonCard],
   page: 2,
-  pageSize: 10,
-  count: 10,
+  pageSize: 1,
+  count: 1,
   totalCount: 20,
 );
